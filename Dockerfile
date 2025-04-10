@@ -1,54 +1,52 @@
-# Imagen base de ROS 2 Humble
 FROM ros:humble
 
-# Evita prompts interactivos durante instalaciones
+# Evita prompts durante instalaciones
 ENV DEBIAN_FRONTEND=noninteractive
 
-# --- Sección 1: ROS 2 Workspace ---
+# --- ROS 2 Workspace ---
 
-# Establece el directorio de trabajo donde irá el código fuente
+# Establece el directorio de trabajo para el código fuente
 WORKDIR /ros2_humble_ws/src
 
-# Instala los paquetes de ejemplo de ROS 2 (en C++ y Python)
+# Instala nodos de ejemplo en C++ y Python de ROS 2
 RUN apt-get update && apt-get install -y \
-      ros-${ROS_DISTRO}-demo-nodes-cpp \
-      ros-${ROS_DISTRO}-demo-nodes-py && \
+    ros-${ROS_DISTRO}-demo-nodes-cpp \
+    ros-${ROS_DISTRO}-demo-nodes-py && \
     rm -rf /var/lib/apt/lists/*
 
-# --- Sección 2: Instalación de Gazebo Fortress y dependencias gráficas ---
+# --- Instalación de Gazebo Fortress y dependencias gráficas ---
 
 # Cambia al directorio /root
 WORKDIR /root
 
-# Instala paquetes necesarios para Gazebo y visualización gráfica
-RUN apt-get update && apt-get install -y \ 
-    lsb-release \           # Información del sistema
-    wget \                  # Descargas
-    gnupg \                 # Llaves GPG
-    x11-apps \              # Herramientas para entorno gráfico X11
-    libxext-dev \           # Dependencias para renderizado
-    libxrender-dev \ 
-    libxtst-dev             # Simulación de eventos de teclado/mouse
+# Instala utilidades básicas del sistema y dependencias de entorno gráfico
+RUN apt-get update && apt-get install -y \
+    lsb-release \
+    wget \
+    gnupg \
+    x11-apps \
+    libxext-dev \
+    libxrender-dev \
+    libxtst-dev
 
-# Instala el paquete ros-gz para integración entre ROS y Gazebo
-RUN sudo apt-get install -y ros-${ROS_DISTRO}-ros-gz
+# Instala el paquete de integración entre ROS y Gazebo
+RUN apt-get install -y ros-${ROS_DISTRO}-ros-gz
 
-# --- Herramientas adicionales ---
-
+# --- Herramientas útiles ---
 RUN apt install -y vim     # Editor de texto
 RUN apt install -y htop    # Monitor de procesos
-RUN apt install -y nvtop   # Monitor de GPU (útil si usas GPU con Docker)
+RUN apt install -y nvtop   # Monitor de GPU
 
 # --- Configuración del entorno ---
 
-# Fuente los entornos de ROS y del workspace al iniciar bash
+# Agrega los entornos de ROS y del workspace al bashrc
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 RUN echo "source /ros2_humble_ws/install/setup.bash" >> ~/.bashrc
 
 # Establece el path para buscar modelos en Gazebo
 RUN echo "export GZ_SIM_RESOURCE_PATH=${GZ_SIM_RESOURCE_PATH}:/ros2_humble_ws/src/" >> ~/.bashrc
 
-# Crea un alias útil para volver a cargar la configuración
+# Crea un alias para recargar bashrc fácilmente
 RUN echo "alias sb='source ~/.bashrc'" >> ~/.bashrc
 
 # Comando por defecto al iniciar el contenedor
