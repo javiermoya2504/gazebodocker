@@ -1,15 +1,15 @@
-version: '3.8'
+version: '3.8'  # Versión del formato de Docker Compose
 
 services:
-  ros2_humble_gazebo:
+  ros2_humble_gazebo:  # Nombre del servicio que lanza el contenedor
     build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: ros2_humble_gazebo_harmonic
-    network_mode: "host"
+      context: .              # Usa el directorio actual como contexto de construcción
+      dockerfile: Dockerfile  # Indica que debe usar el Dockerfile incluido
+    container_name: ros2_humble_gazebo_harmonic  # Nombre personalizado para el contenedor
+    network_mode: "host"  # Utiliza la red del host para permitir interacción con X11
     environment:
-      DISPLAY: ${DISPLAY}
+      DISPLAY: ${DISPLAY}  # Pasa la variable DISPLAY para mostrar ventanas gráficas
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./ros2_humble_ws:/ros2_humble_ws/src
+      - /var/run/docker.sock:/var/run/docker.sock        # Permite acceso al Docker del host (opcional)
+      - /tmp/.X11-unix:/tmp/.X11-unix                    # Monta el socket X11 para mostrar GUI
+      - ./ros2_humble_ws:/ros2_humble_ws/src             # Sincroniza la carpeta local con el workspace del contenedor
