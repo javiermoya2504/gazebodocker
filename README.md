@@ -17,7 +17,7 @@ Este proyecto ejecuta una simulación del robot **TurtleBot 3** en **Gazebo** ut
 - Uso de Gazebo e Ignition con ROS 2 Humble.
 - Todo en entorno contenido gracias a Docker.
 - Visualización gráfica desde el contenedor hacia el host.
-- Configurado y probado en Ubuntu Desktop en máquina virtual.
+- Configurado y probado en Ubuntu Desktop o en máquina virtual.
 
 ---
 
