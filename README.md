@@ -34,8 +34,7 @@ Este proyecto ejecuta una simulación del robot **TurtleBot 3** en **Gazebo** ut
 
 ```bash
 # 1️⃣ Clonar el repositorio
-git clone https://github.com/mateus-mos/Hands-On-Workshop-TurtleBot-3-Simulation-in-Gazebo.git
-cd Hands-On-Workshop-TurtleBot-3-Simulation-in-Gazebo
+git clone https://github.com/javiermoya2504/gazebodocker.git
 
 # 2️⃣ Dar permisos al contenedor para usar la interfaz gráfica
 xhost +local:docker
